@@ -126,7 +126,6 @@ function complete_mail($flag) {
 	}
 	else
 	{
-		show_form();
 		exit();
 	}
 }
@@ -235,13 +234,15 @@ echo '<html>
 		{
 			if (empty($_POST['sender_name']))
 			{
-				$greeting = output_err(0);
+				$greeting = 'Ошибка! Не заполнено поле "Имя".';
+				//var_dump($greeting);
+				//var_dump(output_err(0));
 				$err_count = 1;
 			}
 			// Check email field
 			if(empty($_POST['email']))
 			{
-				$greeting = output_err(1);
+				$greeting = 'Ошибка! Не заполнено поле "e-mail".';
 				$err_count = 1;
 			}
 			// Email must be in %a@%a.%a format
@@ -249,7 +250,7 @@ echo '<html>
 			{
 				if(!preg_match("/[0-9a-z_]+@[0-9a-z_^\.]+\.[a-z]{2,3}/i", $_POST['email']))
 				{
-					$greeting = output_err(2);
+					$greeting = 'Ошибка! Поле "e-mail" заполнено не правильно.';
 					$err_count = 1;
 				}
 			}
@@ -262,7 +263,13 @@ echo '<p align="center"><em>'.$greeting.'</em></p>
     <td  width="481"  valign="top"><!-- Email form -->'; 
     	// show form or send email
     	if (!empty($_POST['submit']))
-    		complete_mail();
+    		if ($err_count == 1)
+    		{
+    			show_form();
+    			//complete_mail($err_count);
+    		}
+    		else
+    			complete_mail(0);
     	else
     		show_form();
     	
