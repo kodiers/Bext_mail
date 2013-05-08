@@ -1,6 +1,5 @@
 <?php
-global $greeting;
-$err_count = 0;
+$err_count = 0;		// error flag
 
 function show_form() 
 {	
@@ -68,39 +67,13 @@ function show_form()
 	</form>';
 }
 
-function complete_mail($flag) {
+function complete_mail() {
 	//
 	// Form and send email
-	// 
-	// 
 	// 
 	$_POST['sender_name'] =  substr(htmlspecialchars($_POST['sender_name']), 0, 100);
 	$_POST['subject'] =  substr(htmlspecialchars($_POST['subject']), 0, 100);
 	$_POST['email'] =  substr(htmlspecialchars(trim($_POST['email'])), 0, 100);
-	//  Check sender name field
-	//if (empty($_POST['sender_name']))
-	//{
-	//	output_err(0);
-	//}
-	//else
-	//	$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
-	// Check email field
-	//if(empty($_POST['email']))
-	//{
-	//	output_err(1);
-	//}
-	//else
-	//	$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
-	// Email must be in %a@%a.%a format
-	//if(!empty($_POST['email']))
-	//{
-	//	if(!preg_match("/[0-9a-z_]+@[0-9a-z_^\.]+\.[a-z]{2,3}/i", $_POST['email']))
-	// 			output_err(2);
-	// 		else
-	// 			$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
-	// 	}
-	// 	else
-	// 		$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
 	// Form message
 	$mess = '<html>
 				<head>
@@ -119,31 +92,9 @@ function complete_mail($flag) {
 	$from='admin@vmk0.ru';
 	$headers = "Content-type: text/html; charset=windows-1251 \r\n";
 	$headers .= "From: Письмо с сайта Бекст <$from>\r\n";
-	if($flag == 0)
-	{
-		mail($to, $subject, $mess, $headers);
-		echo 'Ваше сообщение было отправлено. Мы с вами свяжемся в ближайшее время.';
-	}
-	else
-	{
-		exit();
-	}
+	mail($to, $subject, $mess, $headers);
+	echo 'Ваше сообщение было отправлено. Мы с вами свяжемся в ближайшее время.';
 }
-
-function output_err($num)
-{
-	// Simple check errors
-	$err[0] = '<p class="style41 "><em>Ошибка! Не заполнено поле "Имя".</span></em></p>';
-	$err[1] = '<p class="style41 "><em>Ошибка! Не заполнено поле "e-mail".</span></em></p>';
-	$err[2] = '<p class="style41 "><em>Ошибка! Поле "e-mail" заполнено не правильно.</span></em></p>';
-	//$greeting = $err[num];
-	//var_dump($greeting);
-	//echo $err[$num];
-	//show_form();
-	//exit();
-	return $err[num];
-}
-
 
 
 echo '<html>
@@ -226,17 +177,17 @@ echo '<html>
 <strong>Отправка сообщения</strong>     
 <hr align="center" width="280">
 		<!-- do phrase as variable -->';
+		// check fields
 		if (empty($_POST['submit']))
 		{
     		$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
 		}
 		if (!empty($_POST['submit']))
 		{
+			// check field sender name
 			if (empty($_POST['sender_name']))
 			{
 				$greeting = 'Ошибка! Не заполнено поле "Имя".';
-				//var_dump($greeting);
-				//var_dump(output_err(0));
 				$err_count = 1;
 			}
 			// Check email field
@@ -266,10 +217,9 @@ echo '<p align="center"><em>'.$greeting.'</em></p>
     		if ($err_count == 1)
     		{
     			show_form();
-    			//complete_mail($err_count);
     		}
     		else
-    			complete_mail(0);
+    			complete_mail();
     	else
     		show_form();
     	
