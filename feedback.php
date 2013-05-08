@@ -1,9 +1,12 @@
 <?php
+global $greeting;
+$err_count = 0;
+
 function show_form() 
 {	
 	//  Function to display form
 	
-	?>
+	echo '
 	<form method="post" action="">
 		<table width="336" height="200" border="0" cellspacing="2" cellpadding="4" align="center">
 		<tr>
@@ -62,11 +65,10 @@ function show_form()
 			</td>
 		</tr>
 	</table>
-	</form>
-	<?php 
+	</form>';
 }
 
-function complete_mail() {
+function complete_mail($flag) {
 	//
 	// Form and send email
 	// 
@@ -76,21 +78,29 @@ function complete_mail() {
 	$_POST['subject'] =  substr(htmlspecialchars($_POST['subject']), 0, 100);
 	$_POST['email'] =  substr(htmlspecialchars(trim($_POST['email'])), 0, 100);
 	//  Check sender name field
-	if (empty($_POST['sender_name']))
-	{
-		output_err(0);
-	}
+	//if (empty($_POST['sender_name']))
+	//{
+	//	output_err(0);
+	//}
+	//else
+	//	$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
 	// Check email field
-	if(empty($_POST['email']))
-	{
-		output_err(1);
-	}
+	//if(empty($_POST['email']))
+	//{
+	//	output_err(1);
+	//}
+	//else
+	//	$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
 	// Email must be in %a@%a.%a format
-	if(!empty($_POST['email']))
-	{
-		if(!preg_match("/[0-9a-z_]+@[0-9a-z_^\.]+\.[a-z]{2,3}/i", $_POST['email']))
-			output_err(2);
-	}
+	//if(!empty($_POST['email']))
+	//{
+	//	if(!preg_match("/[0-9a-z_]+@[0-9a-z_^\.]+\.[a-z]{2,3}/i", $_POST['email']))
+	// 			output_err(2);
+	// 		else
+	// 			$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
+	// 	}
+	// 	else
+	// 		$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
 	// Form message
 	$mess = '<html>
 				<head>
@@ -104,13 +114,21 @@ function complete_mail() {
 			</html>';
 	$subject = 'Сообщение с сайта Бекст: '.$_POST['subject'];
 	// $to - email to wich mail should send
-	$to = 'info@bekst.com';
+	$to = 'kodiers@gmail.com';
 	// $from - from whom email will be send
-	$from='siteadmin@bekst.com';
+	$from='admin@vmk0.ru';
 	$headers = "Content-type: text/html; charset=windows-1251 \r\n";
 	$headers .= "From: Письмо с сайта Бекст <$from>\r\n";
-	mail($to, $subject, $mess, $headers);
-	echo 'Ваше сообщение было отправлено. Мы с вами свяжемся в ближайшее время.';
+	if($flag == 0)
+	{
+		mail($to, $subject, $mess, $headers);
+		echo 'Ваше сообщение было отправлено. Мы с вами свяжемся в ближайшее время.';
+	}
+	else
+	{
+		show_form();
+		exit();
+	}
 }
 
 function output_err($num)
@@ -119,14 +137,17 @@ function output_err($num)
 	$err[0] = '<p class="style41 "><em>Ошибка! Не заполнено поле "Имя".</span></em></p>';
 	$err[1] = '<p class="style41 "><em>Ошибка! Не заполнено поле "e-mail".</span></em></p>';
 	$err[2] = '<p class="style41 "><em>Ошибка! Поле "e-mail" заполнено не правильно.</span></em></p>';
-	echo $err[$num];
-	show_form();
-	exit();
+	//$greeting = $err[num];
+	//var_dump($greeting);
+	//echo $err[$num];
+	//show_form();
+	//exit();
+	return $err[num];
 }
 
-?>
 
-<html>
+
+echo '<html>
 <head>
 <title>Компания Бекст, юридические услуги, юридическая консультация, адвокат</title>
 <link rel="stylesheet" href="css/general.css" type="text/css">
@@ -146,12 +167,12 @@ function output_err($num)
 	<tr>
 		<td width="193" height="62" colspan="5" align="center" valign="middle" background="images/images_05.jpg" style="font-size:18px"><h4><strong>8 (985) 643 03 22</strong></h4></td>
 		<td>
-    <a href="index.html" onMouseOver="document.linc1.src='images/images_act_06.jpg';" onMouseOut="document.linc1.src='images/images_06.jpg';"><img src="images/images_06.jpg" name="linc1" width="126" height="62" border="0"></a></td>
-		<td colspan="3"><a href="price.html" onMouseOver="document.linc2.src='images/images_act_07.jpg';" onMouseOut="document.linc2.src='images/images_07.jpg';"><img src="images/images_07.jpg" name="linc2" width="124" height="62" border="0"></a></td>
+    <a href="index.html" onMouseOver="document.linc1.src=\'images/images_act_06.jpg\';" onMouseOut="document.linc1.src=\'images/images_06.jpg\';"><img src="images/images_06.jpg" name="linc1" width="126" height="62" border="0"></a></td>
+		<td colspan="3"><a href="price.html" onMouseOver="document.linc2.src=\'images/images_act_07.jpg\';" onMouseOut="document.linc2.src=\'images/images_07.jpg\';"><img src="images/images_07.jpg" name="linc2" width="124" height="62" border="0"></a></td>
 		<td colspan="4">
-			<a href="contacts.html" onMouseOver="document.linc3.src='images/images_act_08.jpg';" onMouseOut="document.linc3.src='images/images_08.jpg';"><img src="images/images_08.jpg" name="linc3" width="98" height="62" border="0"></a></td>
+			<a href="contacts.html" onMouseOver="document.linc3.src=\'images/images_act_08.jpg\';" onMouseOut="document.linc3.src=\'images/images_08.jpg\';"><img src="images/images_08.jpg" name="linc3" width="98" height="62" border="0"></a></td>
 		<td colspan="2">
-			<a href="feedback.html" onMouseOver="document.linc4.src='images/images_act_09.jpg';" onMouseOut="document.linc4.src='images/images_act_09.jpg';"><img src="images/images_act_09.jpg" name="linc4" width="125" height="62" border="0"></a></td>
+			<a href="feedback.html" onMouseOver="document.linc4.src=\'images/images_act_09.jpg\';" onMouseOut="document.linc4.src=\'images/images_act_09.jpg\';"><img src="images/images_act_09.jpg" name="linc4" width="125" height="62" border="0"></a></td>
 	</tr>
 	<tr>
 		<td colspan="21" background="images/images_10.jpg" width="1200" height="48"></td>
@@ -205,19 +226,47 @@ function output_err($num)
     <td align="center" valign="top">
 <strong>Отправка сообщения</strong>     
 <hr align="center" width="280">
-<p align="center"><em>Мы с радостью ответим на все ваши вопросы и предложения.</em></p>      
+		<!-- do phrase as variable -->';
+		if (empty($_POST['submit']))
+		{
+    		$greeting = 'Мы с радостью ответим на все ваши вопросы и предложения.';
+		}
+		if (!empty($_POST['submit']))
+		{
+			if (empty($_POST['sender_name']))
+			{
+				$greeting = output_err(0);
+				$err_count = 1;
+			}
+			// Check email field
+			if(empty($_POST['email']))
+			{
+				$greeting = output_err(1);
+				$err_count = 1;
+			}
+			// Email must be in %a@%a.%a format
+			if(!empty($_POST['email']))
+			{
+				if(!preg_match("/[0-9a-z_]+@[0-9a-z_^\.]+\.[a-z]{2,3}/i", $_POST['email']))
+				{
+					$greeting = output_err(2);
+					$err_count = 1;
+				}
+			}
+		}
+			
+echo '<p align="center"><em>'.$greeting.'</em></p>      
 </tr>
 
   <tr>
-    <td  width="481"  valign="top"><!-- Email form -->
-    	<?php 
+    <td  width="481"  valign="top"><!-- Email form -->'; 
     	// show form or send email
     	if (!empty($_POST['submit']))
     		complete_mail();
     	else
     		show_form();
-    	?>
-    	<!-- End email form --></td>
+    	
+    	echo '<!-- End email form --></td>
 
   </tr>
 <tr>
@@ -306,13 +355,13 @@ function output_err($num)
 	</tr>
 	<tr>
 		<td colspan="2">
-			<a href="gold.html" onMouseOver="document.linc5.src='images/images_act_47.jpg';" onMouseOut="document.linc5.src='images/images_47.jpg';"><img src="images/images_47.jpg" name="linc5" width="96" height="30" border="0"></a></td>
+			<a href="gold.html" onMouseOver="document.linc5.src=\'images/images_act_47.jpg\';" onMouseOut="document.linc5.src=\'images/images_47.jpg\';"><img src="images/images_47.jpg" name="linc5" width="96" height="30" border="0"></a></td>
 		<td colspan="2" width="163" height="30"></td>
 		<td colspan="2">
-			<a href="silver.html" onMouseOver="document.linc6.src='images/images_act_49.jpg';" onMouseOut="document.linc6.src='images/images_49.jpg';"><img src="images/images_49.jpg" name="linc6" width="96" height="30" border="0"></a></td>
+			<a href="silver.html" onMouseOver="document.linc6.src=\'images/images_act_49.jpg\';" onMouseOut="document.linc6.src=\'images/images_49.jpg\';"><img src="images/images_49.jpg" name="linc6" width="96" height="30" border="0"></a></td>
 		<td colspan="3" width="165" height="30"></td>
 		<td colspan="3">
-			<a href="start.html" onMouseOver="document.linc7.src='images/images_act_51.jpg';" onMouseOut="document.linc7.src='images/images_51.jpg';"><img src="images/images_51.jpg" name="linc7" width="99" height="30" border="0"></a></td>
+			<a href="start.html" onMouseOver="document.linc7.src=\'images/images_act_51.jpg\';" onMouseOut="document.linc7.src=\'images/images_51.jpg\';"><img src="images/images_51.jpg" name="linc7" width="99" height="30" border="0"></a></td>
 		<td colspan="3" width="161" height="30"></td>
 	</tr>
 	<tr>
@@ -384,4 +433,6 @@ function output_err($num)
 </table>
 <!-- Сделано в 2012 году -->
 </body>
-</html>
+</html>';
+
+?>
