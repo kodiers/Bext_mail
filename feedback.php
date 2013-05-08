@@ -87,9 +87,9 @@ function complete_mail() {
 			</html>';
 	$subject = 'Сообщение с сайта Бекст: '.$_POST['subject'];
 	// $to - email to wich mail should send
-	$to = 'kodiers@gmail.com';
+	$to = 'info@bekst.com';
 	// $from - from whom email will be send
-	$from='admin@vmk0.ru';
+	$from='siteadmin@bekst.com';
 	$headers = "Content-type: text/html; charset=windows-1251 \r\n";
 	$headers .= "From: Письмо с сайта Бекст <$from>\r\n";
 	mail($to, $subject, $mess, $headers);
